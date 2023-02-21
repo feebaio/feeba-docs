@@ -20,6 +20,7 @@
 
 # Configurations
 You can click on Global settings button, which will redirect you to configuration page. This page is important because you will need to add all token infformation from third-party apps like Trello or Telegram. Currently, only Trello and Telegram supported and new apps will be integrated in the future.
+
 [<img src="images/config.png" width="900"/>](images/config.png)
 
 
