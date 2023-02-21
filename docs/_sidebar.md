@@ -2,11 +2,11 @@
 
 * [Overview](/)
 * [Rate Experience](/)
-  * [How to start](guide.md)
+  * [Quick start](quick-start.md)
   * Android
-    * [Integration](guide.md)
+    * [Integration](android.md)
   * iOS
-    * [Integration](guide.md)
+    * [Integration](ios.md)
   * Flutter
-    * [Integration](guide.md)
+    * [Integration](flutter.md)
 * [Premium](/)
