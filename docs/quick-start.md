@@ -25,6 +25,8 @@ You can click on Global settings button, which will redirect you to configuratio
 
 
 ## Global settings
+
+### Trello
 - Trello - section where a user enters all necessary trello private configurations
 #### How to get Trello api token:
 1. Log in to your Trello account.
@@ -50,9 +52,36 @@ You can click on Global settings button, which will redirect you to configuratio
 [<img src="images/trello-ids.png" width="900"/>](images/trello-ids.png)
 
 
-
+### Telegram
 - Telegram - similar to trello, a section for configuration. Keep in mind you'll need to creat a bot and add it in the channel to receive all updates throug dashboard.
-- SDK Token - you need to generate token and use that token in the integrated apps and platforms. See Android and iOS sections how to use this token.
+#### How to get Telegram Bot Token
+To get a Telegram bot token, you'll need to create a bot account and register it with the Telegram Bot API. Here are the steps to do so:
+
+1. Open the Telegram app and search for the "BotFather" account.
+2. Start a conversation with BotFather and type the "/newbot" command.
+3. Follow the prompts to give your bot a name and username. BotFather will generate a token for you at the end of the process.
+4. Copy the token and keep it safe. You'll need it to access the Telegram Bot API and control your bot.
+
+#### How to get Telegram chat ID
+1. Start a conversation with your bot on Telegram.
+2. Send a message to the bot.
+3. Open the following URL in your web browser, replacing "YOUR_BOT_TOKEN" with the token you received when you created the bot: https://api.telegram.org/botYOUR_BOT_TOKEN/getUpdates
+4. Look for the "chat" object in the JSON response. It should contain the "id" field, which is the chat ID you're looking for.
+
+Alternatively, you can use a Telegram bot library for your preferred programming language to retrieve the chat ID programmatically. For example, if you're using the Python programming language, you can use the python-telegram-bot library and run the following code:
+
+```python
+import telegram
+
+bot = telegram.Bot(token='YOUR_BOT_TOKEN')
+updates = bot.get_updates()
+chat_id = updates[-1].message.chat_id
+print(chat_id)
+```
+This will retrieve the chat ID of the latest message received by the bot. You can modify the code to retrieve the chat ID of a specific message or chat.
+
+#### SDK Token
+- You need to generate token and use that token in the integrated apps and platforms. See Android and iOS sections how to use this token.
 
 ## Future integrations
 - Slack
