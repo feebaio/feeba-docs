@@ -4,15 +4,15 @@
 - Prod  https://dashboard.feeba.io/auth
 - Dev   https://dev-dashboard.feeba.io/auth
 
-[<img src="images/auth.png" width="250"/>](images/auth.png)
+![](images/auth.png)
 
-    > ℹ️ A user may add more projects after creating an account.
+    >  ℹ️ A user may add more projects after creating an account.
 
 
 2. After creating an account, you will be redirected main page of the dashboard.
 
 
-[<img src="images/sign-in.png" width="900"/>](images/sign-in.png)
+![](images/sign-in.png)
 
 
 3. In order to get rates from different platform, a user needs to add configurations.
@@ -21,7 +21,7 @@
 # Configurations
 You can click on Global settings button, which will redirect you to configuration page. This page is important because you will need to add all token infformation from third-party apps like Trello or Telegram. Currently, only Trello and Telegram supported and new apps will be integrated in the future.
 
-[<img src="images/config.png" width="900"/>](images/config.png)
+![](images/config.png)
 
 
 ## Global settings
@@ -49,7 +49,7 @@ You can click on Global settings button, which will redirect you to configuratio
 5. You can also get the list/column identifier using the Trello API by making a GET request to the list's API endpoint. The list/column identifier will be included in the response as the "id" property.
 
 **NOTE:** You can also get Trello board identifier and colum ID by logging into you trello account, and going to trello board. In the URL of the board append `.json`  to the board which will give you all the ID information.
-[<img src="images/trello-ids.png" width="900"/>](images/trello-ids.png)
+![](images/trello-ids.png)
 
 
 ### Telegram
@@ -78,6 +78,7 @@ updates = bot.get_updates()
 chat_id = updates[-1].message.chat_id
 print(chat_id)
 ```
+
 This will retrieve the chat ID of the latest message received by the bot. You can modify the code to retrieve the chat ID of a specific message or chat.
 
 #### SDK Token

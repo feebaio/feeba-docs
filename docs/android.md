@@ -30,9 +30,9 @@ Please refer to [least-service](https://github.com/codingoperations/least-servic
 
 Sample UI already includes capability
 
-[<img src="images/img.png" width="250"/>](images/img.png)
-[<img src="images/img_1.png" width="250"/>](images/img_1.png)
-[<img src="images/img_2.png" width="250"/>](images/img_2.png)
+![](images/img.png)
+![](images/img_1.png)
+![](images/img_2.png)
 
 ## Headless mode
 #### _Overview_
