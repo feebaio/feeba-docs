@@ -10,3 +10,5 @@
   * Flutter
     * [Integration](flutter.md)
 * [Premium](/)
+* Development
+  * [Gallery](gallery.md)
