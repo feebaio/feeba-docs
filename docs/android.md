@@ -10,7 +10,7 @@
 
 ## Overview
 
-This page provides the information how to integrate android application. Feeba provides an Android client libraries that are published to jitPack. Library has client implementations of Feeba features. Usually all features can be used in two modes. Headless and Headed(Default UI) mode. Client libraries work with server implementation that could be find here - [feeba service](https://github.com/feebaio/feeba-service).
+This page provides the information how to integrate android application. Feeba provides an Android client libraries that are published to jitPack. Library has client implementations of Feeba features. Client libraries work with server implementation that could be find here - [feeba service](https://github.com/feebaio/feeba-service).
 
 Feeba Android libraries are located in [this repo](https://github.com/feebaio/feeba-android).
 
