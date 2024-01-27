@@ -4,27 +4,24 @@
 - Prod  https://dashboard.feeba.io/auth
 - Dev   https://dev-dashboard.feeba.io/auth
 
-![](images/auth.png)
-
-    >  ℹ️ A user may add more projects after creating an account.
+![](images/new-login.png)
 
 
-2. After creating an account, you will be redirected main page of the dashboard.
+
+2. After creating an account, you will be redirected main page of the dashboard. There you can create a new blank survey or use predefined survey templates.
 
 
-![](images/sign-in.png)
+![](images/new-home-page.png)
 
 
-3. In order to get rates from different platform, a user needs to add configurations.
+3. In order for survey to be handled by Feeba you need to generate SDK token and use that for all survey trigger from your mobile application. To generate a new token go to the upper right corner of the page and click on the profile. In the drop down list you need to click into `Settings`. You SDK token for all mobile app application transactions with feeba.
+
+![](images/settings.png)
+![](images/sdk-token.png)
 
 
-# Configurations
-You can click on Global settings button, which will redirect you to configuration page. This page is important because you will need to add all token infformation from third-party apps like Trello or Telegram. Currently, only Trello and Telegram supported and new apps will be integrated in the future.
 
-![](images/config.png)
-
-
-## Global settings
+## Global settings (Optional for surveys)
 
 ### Trello
 - Trello - section where a user enters all necessary trello private configurations

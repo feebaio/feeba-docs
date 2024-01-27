@@ -18,8 +18,6 @@ Feeba Android libraries are located in [this repo](https://github.com/feebaio/fe
 
 - Generating API token. It will be used to authenticate android app with the backend service
 - Providing pop-up message description
-- Tag messages
-- Rate limit
 
 Please refer to [quick-start](/quick-start) documentation of how to create proper configuration.
 
@@ -28,88 +26,121 @@ Please refer to [quick-start](/quick-start) documentation of how to create prope
 Feeba Android client library is delivered in two modules. Core and RateMe. Both are published to jitPack.
 
 ```groovy
-implementation 'com.github.feebaio.feeba-android:core:0.0.8'
-implementation 'com.github.feebaio.feeba-android:rateme:0.0.8'
+	dependencies {
+	        implementation 'com.github.feebaio:feeba-android:0.1.7'
+	}
 ```
 
-### Initialization - Headed mode(With Default UI)
+## Triggers
 
-Feeba Android comes with existing UI that can be used out of the box. There are two ways to initialize Feeba Android library:
+Currentnly you can set up 2 type of triggers from Survey Dashboard: 
+1. When certain screen is opened.
+2. When specific condition is satisfied
 
-1. RateExpActivity - This is a default activity that can be used to display Feeba UI. It can be started by calling `RateExpActivity.startActivity` static method.
+
+### When certain screen is opened
+In this event you can specify how survey will be displayed based on timer. Click on your survey and go to Distribution menu
+
+![](images/problematic-page.png)
+
+
+This is the sample survey questions:
+![](images/sample-survey-builder.png)
+
+
+In this example `login_page` event name specified and there is a wait time of 5 seconds. If a user is in the login page of the android app (it can be any page) and 5 seconds passed, then survey window will pop-up:
+
+<img src="images/problematic_login1.png"  width="35%" height="20%">
+<img src="images/problematic_login2.png"  width="35%" height="20%">
+
+Sample code to call from Android code:
 
 ```kotlin
-RateExpActivity.startActivity(requireActivity(),
-    ServerConfig(hostUrl, langCode, jwtToken),
-    UserSpecificContext("info@feeba.io"),
-    null,
-)
+
+    override fun onCreate() {
+        super.onCreate()
+
+        // This is how Feeba is initialized. API credentials
+        Feeba.init(
+            this, ServerConfig(
+                hostUrl = ConfigHolder.hostUrl,     // API endpoint
+                langCode = "en",                    // default language of the app user
+                apiToken = ConfigHolder.jwtToken    // generated token from the Dashboard
+            )
+        )
+    }
+
+    // Some code
+
+    override fun onResume() {
+        super.onResume()
+        // FEEBA integration. Let Feeba know that the page is opened.
+        Feeba.pageOpened("login_page")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacks(runnable)
+
+        // FEEBA integration. Let Feeba know that the page is closed.
+        Feeba.pageClosed("login_page")
+    }
 ```
 
-hostUrl- Feeba backend service url
-langCode - Language code you want to fetch the config for. Ensure you have a config for the language code.
-jwtToken - API token generated from Feeba backend service
-2. RateExperienceFragment - This is a default fragment that can be used to display Feeba UI. It can be started by calling `RateExperienceFragment.show` static method.
+> NOTE: API endpoint is specified in [quick-start](/quick-start)
+
+
+### When specific condition is satisfied
+In this configuration survey is shown when a user reaches specific page. For instance, for the ride-sharing use case, a passanger can get a survey once the survey is finished and the page is displayed.
+
+![](images/on-ride-end-config.png)
+
+Sample survey questions:
+
+![](images/ride-end-dashboard-config.png)
+
+Sample survey pop-up:
+
+<img src="images/end_ride.png"  width="35%" height="20%">
+
+Android code sample:
 
 ```kotlin
-RateExperienceFragment.show(
-    supportFragmentManager,
-    R.id.fragmentContainer,
-    this.classLoader,
-    rateExperienceConfig,
-    serverConfig,
-    withBackStack = false,
-    userContext
-)
+    private var _binding: FragmentSampleShowcaseBinding? = null
+    private val binding get() = _binding!!
+
+    // Define API credentials from previous example
+
+    private val user1 = UserData(
+        userId = "test1-user-id",
+        email = "test1@example.com",
+        phoneNumber = "+1-987-65-43",
+        tags = Tags(
+            rideId = "test1-user-ride-id",
+            driverId = "test1-driver-id"
+        )
+    )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Feeba.User.login(user1.userId, user1.email, user1.phoneNumber)
+        Feeba.User.setLanguage("en")
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // some code ...
+        binding.onRideEndButton.setOnClickListener {
+            Feeba.User.addTag(mapOf("driverId" to user1.tags.driverId, "rideId" to user1.tags.rideId))
+            Feeba.triggerEvent("on_ride_end")
+        }
+
+        // more code
+    }
 ```
 
-<img src="images/android_1.png"  width="20%" height="20%">
-<img src="images/android_2.png"  width="20%" height="20%">
-<img src="images/android_3.png"  width="20%" height="20%">
 
-#### UI customization
-**_wip_**
 
-### Initialization - Headless mode
-Feeba android library provides a way to integrate Feeba features without using Feeba UI. This is useful when you want to integrate Feeba features into your existing UI. Feeba android library provides a way to integrate Feeba features without using Feeba UI. This is useful when you want to integrate Feeba features into your existing UI. We expose `RateExperienceViewModel` component that encapsulates all the complexity of communicating with Feeba backend service.
-RateExperienceViewModel is recommended to use as a VM part of the MVVM pattern. It can be used as follows:
-
-```kotlin
-class HeadlessRateExpActivity : AppCompatActivity() {
-  private val viewModel = RateExperienceViewModel(
-      ServerConfig(
-          hostUrl = ConfigHolder.hostUrl,
-          langCode = ConfigHolder.langCode,
-          apiToken = ConfigHolder.jwtToken
-      ),
-      usersContext = UserSpecificContext("info@feeba.io"),
-  )
- 
- ... 
-}
-```
-
-#### _Call & Communication patterns_
-All the commands to ViewModel are sent directly calling its public functions. ViewModel exposes a `uiState` property that can be used to observe the state of the UI. It is a `StateFlow` that emits `RateExperienceState` objects. `RateExperienceState` is a sealed class that represents the state of the UI. It has the following states:
-
-```kotlin
-onFeedbackSubmit(text: String, rating: Float) - Needs to be called when user submits feedback. 
-onRateSelected(rating: Int) - Needs to be called when user selects a rating. Eg. User clicks on 5th star.
-onTagSelectionUpdate(tag: Tag, isChecked: Boolean)  - Needs to be called when user selects a tag. Eg. User clicks on a tag.
-```
-
-It is UI layer's responsibility to listen to events emitted by ViewModel. ViewModel currently emitts the following events:
-
-```kotlin
-ConfigLoading - UI should show a loading indicator when this event is received.
-RateSelected(val reaction: String) - UI should update the label of the selected rating when this event is received. Showing rating's label is useful to explain the meaning of the rating. 
-ConfigLoaded(val config: RateExperienceConfig) - UI should update the UI with the config received from the backend service. 
-TagsUpdated(val tags: List<Tag>, val selectionHistory: List<Tag>) - UI should re-render tags that are included in the event
-ConfigLoadFailed - This event is emitted when config loading fails. UI should show an error message or just close the window as business logic requires 
-Submitting - This event is user's feedback is getting sent to backend 
-SubmissionError - This event is emitted when user's feedback submission fails. UI should show an error message or just close the window as business logic requires
-SubmissionSuccess(val config: RateExperienceConfig) - This event is emitted when user's feedback submission succeeds. UI should update the UI with the config received from the backend service. 
-``` 
-
-### Custom Payload passing
-**_WIP_**
