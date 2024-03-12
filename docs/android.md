@@ -23,11 +23,13 @@ Please refer to [quick-start](/quick-start) documentation of how to create prope
 
 ## Integration
 
-Feeba Android client library is delivered in two modules. Core and RateMe. Both are published to jitPack.
+Feeba Android client library is delivered in two modules. Core and RateMe. Both are published to jitPack. 
+ 
+> Please check [Jitpack](https://jitpack.io/#feebaio/feeba-android) for the latest version.
 
 ```groovy
 	dependencies {
-	        implementation 'com.github.feebaio:feeba-android:0.1.7'
+	        implementation 'com.github.feebaio:feeba-android:0.1.16'
 	}
 ```
 
